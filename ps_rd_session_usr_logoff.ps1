@@ -1,13 +1,13 @@
 ﻿ Write-Host "RDS Util by okhotnikov-aa"
  Write-Host ""
- Write-Host " 1. Log Off All Disconnected Sessions"
- Write-Host " 2. End All Remote User SESSIONS"
+ Write-Host " 1. Log Off Disconnected Sessions"
+ Write-Host " 2. Log Of All Sessions"
  Write-Host " 0. Quit"
- $menu = Read-Host "=>:"
+ $menu = Read-Host ""
 
  Write-Host ""
  Write-Host "Please enter RD Connection Broker FQDN"
- $rdcb = Read-Host "=>:"
+ $rdcb = Read-Host ""
 
  Switch ($menu) {
  "1" {$session_list = Get-RDUserSession -ConnectionBroker $rdcb | Where-Object -Filter {$_.SessionState -eq 'STATE_DISCONNECTED'} }
