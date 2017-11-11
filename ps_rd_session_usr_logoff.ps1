@@ -1,6 +1,22 @@
-﻿$RDSessions = Get-RDUserSession -ConnectionBroker ld-s-rdcb03n02.ao.nlmk | Where-Object -Filter {$_.SessionState -eq 'STATE_DISCONNECTED'}
- Foreach ($RDSession in $RDSessions)
+﻿ Write-Host "RDS Util by okhotnikov-aa"
+ Write-Host ""
+ Write-Host " 1. Log Off All Disconnected Sessions"
+ Write-Host " 2. End All Remote User SESSIONS"
+ Write-Host " 0. Quit"
+ $menu = Read-Host "=>:"
+
+ Write-Host ""
+ Write-Host "Please enter RD Connection Broker FQDN"
+ $rdcb = Read-Host "=>:"
+
+ Switch ($menu) {
+ "1" {$session_list = Get-RDUserSession -ConnectionBroker $rdcb | Where-Object -Filter {$_.SessionState -eq 'STATE_DISCONNECTED'} }
+ "2" {$session_list = Get-RDUserSession -ConnectionBroker $rdcb}
+ "0" {Exit}
+ }
+
+ Foreach ($session_list in $session_list)
  {
- Invoke-RDUserLogoff -UnifiedSessionID $RDSession.SessionId -HostServer $RDSession.HostServer -Force
- Write-Host "The User" $RDSession.UserName "is logged off from" $RDSession.HostServer "server"
+ Invoke-RDUserLogoff -UnifiedSessionID $session_list.SessionId -HostServer $session_list.HostServer -Force
+ Write-Host "The User" $session_list.UserName "is succesfully logged off from" $session_list.HostServer "server"
  } 
